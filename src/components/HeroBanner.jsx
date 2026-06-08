@@ -3,6 +3,7 @@
 import Image from "next/image";
 import globe from "@/images/globe.png";
 
+
 const stats = [
   { icon: "🏢", value: "50K", label: "Active Jobs" },
   { icon: "📊", value: "12K", label: "Companies" },
@@ -24,7 +25,7 @@ const STARS = Array.from({ length: 70 }, (_, i) => ({
 
 export default function HeroBanner() {
   return (
-    <section className="relative w-full min-h-screen bg-black overflow-hidden flex flex-col items-center">
+    <section  className="relative w-full min-h-screen bg-black overflow-hidden flex flex-col items-center">
 
       {/* ── Stars ── */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">

@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { motion } from "motion/react"
 
 const navLinks = [
   { label: "Browse Jobs", href: "/jobs" },
@@ -31,7 +32,7 @@ const NavBar = () => {
   };
 
   return (
-    <header className="py-6 px-4">
+    <motion.header initial={{ scale: 0 }} animate={{ scale: 1 }} className="py-6 px-4">
       <div className="max-w-6xl mx-auto">
         <nav className="bg-[#17181C]/90 backdrop-blur-md rounded-2xl px-6 lg:px-8 h-16 flex items-center justify-between shadow-xl border border-white/5">
 
@@ -70,6 +71,7 @@ const NavBar = () => {
 
                 {/* Logout button */}
                 <button
+                  
                   onClick={handleSignOut}
                   disabled={loggingOut}
                   className="border border-red-500/50 text-red-400 hover:bg-red-500/10 disabled:opacity-50 disabled:cursor-not-allowed px-5 py-2.5 rounded-xl text-sm font-medium transition"
@@ -161,7 +163,7 @@ const NavBar = () => {
           </div>
         )}
       </div>
-    </header>
+    </motion.header>
   );
 };
 
