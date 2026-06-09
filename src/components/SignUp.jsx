@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { Description, Label, Radio, RadioGroup } from "@heroui/react";
 import { authClient } from "@/lib/auth-client"; // Adjust path to match your client setup
 
 // ── toast hook ────────────────────────────────────────────────────────────────
@@ -149,7 +150,7 @@ function ToastList({ toasts, removeToast }) {
 // ── main component ────────────────────────────────────────────────────────────
 export default function SignUp() {
     const { toasts, toast, removeToast } = useToast();
-    const [fields, setFields] = useState({ name: "", email: "", password: "", confirm: "" });
+    const [fields, setFields] = useState({ name: "", email: "", password: "", confirm: "", role: "seeker" });
     const [errors, setErrors] = useState({});
     const [touched, setTouched] = useState({});
     const [showPw, setShowPw] = useState(false);
@@ -189,15 +190,18 @@ export default function SignUp() {
         }
 
         setLoading(true);
+        // console.log("Submitting:", fields.role);
 
         // ── better auth sign up execution ─────────────────────────────────────────
         authClient.signUp.email({
             email: fields.email.trim(),
             password: fields.password,
             name: fields.name.trim(),
+            role: fields.role,
             callbackURL: "/",
         })
             .then((res) => {
+                // console.log("Signup successful:", res);
                 setLoading(false);
                 setSuccess(true);
                 toast("Account created successfully! 🎉", "success");
@@ -329,6 +333,71 @@ export default function SignUp() {
                                     </button>
                                 </div>
                                 {touched.confirm && errors.confirm && <p className="text-[11.5px] text-red-500 mt-0.5 leading-relaxed">{errors.confirm}</p>}
+                            </div>
+                            {/* role selection */}
+                            {/* <div className="flex flex-col gap-4">
+                                <Label className="text-white/55">Role</Label>
+                                <RadioGroup defaultValue={fields.role} onValueChange={(value) => {
+                                    console.log("Selected:", value);
+                                    setFields((prev) => ({
+                                        ...prev,
+                                        role: value,
+                                    }));
+                                }} name="role" orientation="horizontal">
+                                    <Radio value="seeker">
+                                        <Radio.Control>
+                                            <Radio.Indicator />
+                                        </Radio.Control>
+                                        <Radio.Content>
+                                            <Label className="text-white/55">Seeker</Label>
+                                            <Description>For job seekers</Description>
+                                        </Radio.Content>
+                                    </Radio>
+                                    <Radio value="recruiter">
+                                        <Radio.Control>
+                                            <Radio.Indicator />
+                                        </Radio.Control>
+                                        <Radio.Content>
+                                            <Label className="text-white/55">Recruiter</Label>
+                                            <Description>For recruiters and hiring managers</Description>
+                                        </Radio.Content>
+                                    </Radio>
+
+                                </RadioGroup>
+                            </div> */}
+
+
+
+                            <div className="flex flex-col gap-4">
+                                <Label className="text-white/55">Role</Label>
+
+                                <div className="flex gap-6">
+                                    <label className="flex items-center gap-2 text-white">
+                                        <input
+                                            type="radio"
+                                            name="role"
+                                            value="seeker"
+                                            checked={fields.role === "seeker"}
+                                            onChange={(e) =>
+                                                setFields((prev) => ({ ...prev, role: e.target.value }))
+                                            }
+                                        />
+                                        Seeker
+                                    </label>
+
+                                    <label className="flex items-center gap-2 text-white">
+                                        <input
+                                            type="radio"
+                                            name="role"
+                                            value="recruiter"
+                                            checked={fields.role === "recruiter"}
+                                            onChange={(e) =>
+                                                setFields((prev) => ({ ...prev, role: e.target.value }))
+                                            }
+                                        />
+                                        Recruiter
+                                    </label>
+                                </div>
                             </div>
 
                             {/* Submit */}
