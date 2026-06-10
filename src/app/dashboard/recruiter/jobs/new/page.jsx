@@ -124,7 +124,7 @@ export default function NewJobPost() {
     const legendStyles = "text-sm font-semibold text-neutral-400 tracking-wider uppercase mb-4";
 
     return (
-        <div className="max-w-3xl mx-auto bg-[#121212] border border-neutral-800 rounded-xl shadow-2xl overflow-hidden text-neutral-200">
+        <div className="max-w-3xl mx-auto bg-[#121212] border border-neutral-800 rounded-xl shadow-2xl overflow-hidden text-neutral-200 mb-10 mt-6">
 
             {/* Header */}
             <div className="p-6 border-b border-neutral-800">
@@ -285,11 +285,13 @@ export default function NewJobPost() {
                         <div className="flex items-center gap-2 sm:pt-6">
                             <Switch
                                 isSelected={isRemote}
-                                onValueChange={setIsRemote}
-                                classNames={{
-                                    wrapper: "group-data-[selected=true]:bg-white group-data-[selected=true]:text-black bg-neutral-700",
-                                }}
-                            />
+                                onChange={setIsRemote}
+                                aria-label="Toggle remote work"
+                            >
+                                <Switch.Control className={`w-10 h-6 rounded-full transition-colors ${isRemote ? "bg-white" : "bg-neutral-600"}`}>
+                                    <Switch.Thumb className="bg-black data-[selected=true]:bg-black" />
+                                </Switch.Control>
+                            </Switch>
                             <span className="text-sm text-neutral-300 font-medium">This is a fully remote role</span>
                         </div>
                     </div>
