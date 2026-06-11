@@ -11,6 +11,9 @@ import {
     Button,
     Switch
 } from "@heroui/react";
+import { createJob } from "@/lib/actions/jobs";
+import { toast, ToastContainer } from "react-toastify";
+import { redirect } from "next/navigation";
 
 const JOB_CATEGORIES = [
     { id: "technology", name: "Technology" },
@@ -51,7 +54,7 @@ export default function NewJobPost() {
 
     const canPost = companyInfo.isApproved && companyInfo.activeJobsCount < companyInfo.jobLimit;
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Collect native input/textarea values via FormData
@@ -98,7 +101,15 @@ export default function NewJobPost() {
             createdAt: new Date().toISOString(),
         };
 
-        console.log("📋 Job Form Data:", finalPayload);
+        const res = await createJob(finalPayload);
+        if(res){
+            toast.success("Job Posted successfully")
+            // e.currentTarget.reset();
+            // setIsRemote(false)
+            redirect("/dashboard/recruiter")
+        }else{
+            toast.error("Something went wroong")
+        }
     };
 
     if (!canPost) {
@@ -367,6 +378,7 @@ export default function NewJobPost() {
                     </Button>
                 </div>
             </Form>
+            <ToastContainer></ToastContainer>
         </div>
     );
 }
